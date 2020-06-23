@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.js.mapper.system.SysLogMapper">
+    <resultMap id="BaseResultMapLog" type="com.js.pojo.system.SysLog">
+        <id column="uuid" property="uuid" jdbcType="VARCHAR"/>
+        <result column="oper_user" property="operUser" jdbcType="VARCHAR"/>
+        <result column="operation" property="operation" jdbcType="VARCHAR"/>
+        <result column="response_time" property="responseTime" jdbcType="VARCHAR"/>
+        <result column="method" property="method" jdbcType="VARCHAR"/>
+        <result column="request_params" property="requestParams" jdbcType="VARCHAR"/>
+        <result column="ip" property="ip" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+		uuid, oper_user, operation, response_time, method, request_params, ip, create_time
+	</sql>
+    <select id="showAllLog" resultMap="BaseResultMapLog">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_log
+        ORDER BY create_time DESC
+    </select>
+
+    <insert id="addSysLog" parameterType="com.js.pojo.system.SysLog">
+        insert into sys_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">
+                uuid,
+            </if>
+            <if test="operUser != null">
+                oper_user,
+            </if>
+            <if test="operation != null">
+                operation,
+            </if>
+            <if test="responseTime != null">
+                response_time,
+            </if>
+            <if test="method != null">
+                method,
+            </if>
+            <if test="requestParams != null">
+                request_params,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">
+                #{uuid,jdbcType=VARCHAR},
+            </if>
+            <if test="operUser != null">
+                #{operUser,jdbcType=VARCHAR},
+            </if>
+            <if test="operation != null">
+                #{operation,jdbcType=VARCHAR},
+            </if>
+            <if test="responseTime != null">
+                #{responseTime,jdbcType=VARCHAR},
+            </if>
+            <if test="method != null">
+                #{method,jdbcType=VARCHAR},
+            </if>
+            <if test="requestParams != null">
+                #{requestParams,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+</mapper>
