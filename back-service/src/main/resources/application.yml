@@ -56,6 +56,9 @@ logging:
 
 #基本信息
 info:
-  description: BackOaProject平台
+  title: BackOaProject平台
+  description: 传统OA
   version: v1.0
   author: JS
+  url: http://oa.hdgbt.com
+  email: 2545251075@qq.com

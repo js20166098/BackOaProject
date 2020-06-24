@@ -1,6 +1,8 @@
 package com.js.config.swagger;
 
 import com.google.common.base.Predicates;
+import com.js.config.AuthorMessConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -19,6 +21,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
+    @Autowired
+    private AuthorMessConfig authorMessConfig;
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
@@ -36,7 +40,8 @@ public class SwaggerConfig {
      * @return
      */
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("BackOaProject平台").description("传统OA")
-            .contact(new Contact("JS", "http://oa.hdgbt.com", "2545251075@qq.com")).version("1.0").build();
+        return new ApiInfoBuilder().title(authorMessConfig.getTitle()).description(authorMessConfig.getDescription())
+            .contact(new Contact(authorMessConfig.getAuthor(), authorMessConfig.getUrl(), authorMessConfig.getEmail())).
+                        version(authorMessConfig.getVersion()).build();
     }
 }
