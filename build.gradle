@@ -31,7 +31,10 @@ allprojects {
 subprojects {
     apply plugin: 'java'
     apply plugin: 'war';
+    //IDEA使用的插件
     apply plugin: 'idea'
+    //eclipse使用的插件
+    //apply plugin: 'eclipse-wtp'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'org.springframework.boot'
     sourceCompatibility = 1.8
