@@ -1,6 +1,8 @@
 package com.js.common.util.excel;
 
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import java.util.List;
  * @date: 2019/12/12 14:37
  * @description: 关于类的操作的工具类
  */
+@Slf4j
 public final class ClassUtil {
 
     private ClassUtil() {
@@ -52,7 +55,7 @@ public final class ClassUtil {
                 Method method = objectClass.getMethod(getMethodName,new Class[]{});
                 methodList.add(method);
             } catch (NoSuchMethodException e) {
-                e.printStackTrace();
+                log.info("系统出现异常{}",e);
             }
         }
         return methodList;

@@ -1,26 +1,26 @@
 package com.js.common.util.excel;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.hssf.usermodel.*;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
+import org.apache.commons.io.IOUtils;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
- * @Author: 姜爽
- * @Description: excle导出操作
- * @Date: 2020/5/10 14:15
+ * @author: 姜爽
+ * @date: 2019/12/12 14:37
+ * @description: Excel基础操作
  */
 @Slf4j
-public final class ExcelUtil {
+public class ExcelUtil {
 
     private static final String NULL = "null";
     /**
@@ -29,7 +29,7 @@ public final class ExcelUtil {
      * @param importlist 要导出的对象的集合
      * @param attributeNames 含有每个对象属性在excel表中对应的标题字符串的数组（请按对象中属性排序调整字符串在数组中的位置）
      */
-    public static void export(HttpServletResponse response, List<?> importlist, String[] attributeNames,String fileName) {
+    public static void export(HttpServletResponse response, List<?> importlist, String[] attributeNames, String fileName) {
         //获取数据集
         List<?> datalist = importlist;
 
@@ -70,10 +70,8 @@ public final class ExcelUtil {
                 try {
                     Object value = methodList.get(j).invoke(targetObj, new Object[]{});
                     cell.setCellValue(transCellType(value));
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    log.info("运行出现的异常为{}",e);
                 }
             }
         }
@@ -85,7 +83,7 @@ public final class ExcelUtil {
             response.flushBuffer();
             workbook.write(response.getOutputStream());
         } catch (IOException e) {
-            e.printStackTrace();
+            log.info("系统出现异常为{}",e);
         }
 
     }
@@ -96,11 +94,75 @@ public final class ExcelUtil {
             str = String.valueOf(value);
         }else{
             str = String.valueOf(value);
-            if (str == NULL){
+            if (str == null){
                 str = "";
             }
         }
         return str;
+    }
+
+    /**
+     *
+     **/
+    public static Workbook getWorkbook(String excelFilePath) throws FileNotFoundException {
+        return getWorkbook(new File(excelFilePath));
+    }
+
+    /**
+     * 从流中读取工作表，并且不会关闭该流，调用者需要自行处理流的关闭等操作
+     * 03及以下返回HSSFWorkbook，07版及以上返回XSSFWorkbook
+     *
+     * @param is
+     * @return
+     */
+    public static Workbook getWorkbook(InputStream is) {
+        try {
+            return WorkbookFactory.create(is);
+        } catch (Exception e) {
+            log.info("系统出现异常为{}",e);
+            return null;
+        }
+    }
+
+    /**
+     *
+     **/
+    public static Workbook getWorkbook(File excelFile) throws FileNotFoundException {
+        InputStream is = new FileInputStream(excelFile);
+        Workbook wb = getWorkbook(is);
+        IOUtils.closeQuietly(is);
+        return wb;
+    }
+
+    /**
+     * 获取一个excel中的所有sheet
+     *
+     * @param wb
+     * @return
+     */
+    public static List<Sheet> getSheets(Workbook wb) {
+        List<Sheet> list = new ArrayList<>();
+        int num = wb.getNumberOfSheets();
+        if (num > 0) {
+            for (int i = 0; i < num; i++) {
+                list.add(wb.getSheetAt(i));
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 获取一个excel中的一个sheet
+     *
+     * @param wb
+     * @param index
+     * @return org.apache.poi.ss.usermodel.Sheet
+     * @method getSheet
+     * @author Gavin Gao
+     * @date 2018/11/2 16:53
+     */
+    public static Sheet getSheet(Workbook wb, int index) {
+        return wb.getSheetAt(index);
     }
 
 }
