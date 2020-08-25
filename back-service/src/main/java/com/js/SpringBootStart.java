@@ -49,6 +49,7 @@ public class SpringBootStart {
         sb.append("======`-.____`-.___\\_____/___.-`____.-'======\n");
         sb.append("                   `=---='\n");
         sb.append("...................................................\n");
+        sb.append("  佛祖保佑    iii    永不宕机     iii    永无BUG");
         return sb.toString();
     }
 }
