@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.js.mapper.system.SysDictMapper">
+    <!-- 结果集 -->
+    <resultMap type="com.js.pojo.system.SysDict" id="SysDictMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="paramName" column="param_name" jdbcType="VARCHAR"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="paramKey" column="param_key" jdbcType="VARCHAR"/>
+        <result property="paramValue" column="param_value" jdbcType="VARCHAR"/>
+        <result property="sort" column="sort" jdbcType="INTEGER"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 基本字段 -->
+    <sql id="Base_Column_List">
+        id, param_name, code, param_key, param_value, sort, description, create_by, update_by, create_time, update_time
+    </sql>
+
+    <!-- 通过ID查询单条数据 -->
+    <select id="selectById" resultMap="SysDictMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dict
+        where id = #{id}
+    </select>
+
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="selectList" resultMap="SysDictMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dict
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and param_name = #{paramName}
+            </if>
+            <if test="code != null and code != ''">
+                and code = #{code}
+            </if>
+            <if test="key != null and key != ''">
+                and param_key = #{paramKey}
+            </if>
+            <if test="value != null and value != ''">
+                and param_value = #{paramValue}
+            </if>
+            <if test="sort != null">
+                and sort = #{sort}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                and create_by = #{createBy}
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                and update_by = #{updateBy}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+    <!-- 新增数据 -->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.js.pojo.system.SysDict">
+        insert into sys_dict
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="paramName != null">
+                param_name,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="paramKey != null">
+                param_key,
+            </if>
+            <if test="paramValue != null">
+                param_value,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="paramName != null">
+                #{paramName,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="paramKey != null">
+                #{paramKey,jdbcType=VARCHAR},
+            </if>
+            <if test="paramValue != null">
+                #{paramValue,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 通过主键修改数据 -->
+    <update id="update">
+        update sys_admin.sys_dict
+        <set>
+            <if test="name != null and name != ''">
+                param_name = #{paramName},
+            </if>
+            <if test="code != null and code != ''">
+                code = #{code},
+            </if>
+            <if test="key != null and key != ''">
+                param_key = #{paramKey},
+            </if>
+            <if test="value != null and value != ''">
+                param_value = #{paramValue},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                create_by = #{createBy},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                update_by = #{updateBy},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from sys_dict where id = #{id}
+    </delete>
+
+
+    <!--通过条件删除数据-->
+    <delete id="deleteByEntity" parameterType="com.js.pojo.system.SysDict">
+        delete from sys_dict
+        <where>
+            <if test="name != null">
+                and param_name = #{paramName,jdbcType=VARCHAR}
+            </if>
+            <if test="code != null">
+                and code = #{code,jdbcType=VARCHAR}
+            </if>
+            <if test="key != null">
+                and param_key = #{paramKey,jdbcType=VARCHAR}
+            </if>
+            <if test="value != null">
+                and param_value = #{paramValue,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null">
+                and sort = #{sort,jdbcType=INTEGER}
+            </if>
+            <if test="description != null">
+                and description = #{description,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null">
+                and create_by = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="updateBy != null">
+                and update_by = #{updateBy,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteByIds">
+        delete from sys_dict where id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!-- 条件查询总数 -->
+    <select id="countByEntity" parameterType="com.js.pojo.system.SysDict" resultType="int">
+        select count(*) from sys_dict
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="name != null">
+                and param_name = #{paramName,jdbcType=VARCHAR}
+            </if>
+            <if test="code != null">
+                and code = #{code,jdbcType=VARCHAR}
+            </if>
+            <if test="key != null">
+                and param_key = #{paramKey,jdbcType=VARCHAR}
+            </if>
+            <if test="value != null">
+                and param_value = #{paramValue,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null">
+                and sort = #{sort,jdbcType=INTEGER}
+            </if>
+            <if test="description != null">
+                and description = #{description,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null">
+                and create_by = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="updateBy != null">
+                and update_by = #{updateBy,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByCodeAndKey" resultMap="SysDictMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dict
+        where code = #{code} and key = #{key}
+    </select>
+</mapper>

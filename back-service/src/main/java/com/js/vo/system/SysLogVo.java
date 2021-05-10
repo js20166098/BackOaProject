@@ -1,7 +1,9 @@
 package com.js.vo.system;
 
+import com.js.dto.BasePageDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.util.Date;
@@ -12,7 +14,8 @@ import java.util.Date;
  **/
 @ToString
 @Data
-public class SysLogVo {
+@EqualsAndHashCode(callSuper = true)
+public class SysLogVo extends BasePageDto {
 
     @ApiModelProperty("日志主键")
     private String uuid;
