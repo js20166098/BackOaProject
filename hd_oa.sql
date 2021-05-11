@@ -14,4 +14,19 @@ CREATE TABLE `sys_log`  (
   PRIMARY KEY (`uuid`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统日志' ROW_FORMAT = Compact;
 
+CREATE TABLE `sys_dict` (
+  `id` bigint(32) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `param_name` varchar(255) NOT NULL COMMENT '字典名称',
+  `code` varchar(255) NOT NULL COMMENT '字典编码',
+  `param_key` varchar(255) NOT NULL COMMENT '字典key',
+  `param_value` varchar(255) NOT NULL COMMENT '字典值',
+  `sort` int(11) DEFAULT NULL COMMENT '排序',
+  `description` varchar(255) DEFAULT NULL COMMENT '描述',
+  `create_by` varchar(255) DEFAULT NULL COMMENT '创建者',
+  `update_by` varchar(255) DEFAULT NULL COMMENT '更新者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `IDX_CODE_KEY` (`code`,`param_key`) COMMENT 'code 和key 的唯一索引'
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='数据字典';
 SET FOREIGN_KEY_CHECKS = 1;
